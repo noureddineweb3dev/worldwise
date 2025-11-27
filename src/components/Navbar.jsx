@@ -1,25 +1,19 @@
 import { NavLink } from 'react-router-dom';
 import classes from '../components/Navbar.module.css';
+import Logo from './Logo';
 
 function Navbar() {
   return (
-    <header>
-      <nav>
-        <NavLink to="/">
-          <div className={classes.logo}>
-            <span>WW</span>
-            <h1>WorldWise</h1>
-          </div>
+    <nav className={classes.nav}>
+      <Logo />
+      <ul>
+        <NavLink to="/product">Product</NavLink>
+        <NavLink to="/pricing">Pricing</NavLink>
+        <NavLink to="/login" className={classes.ctaLink}>
+          Login
         </NavLink>
-        <div className={classes.menu}>
-          <NavLink to="product">Product</NavLink>
-          <NavLink to="pricing">Pricing</NavLink>
-          <NavLink to="login">
-            <button>Login</button>
-          </NavLink>
-        </div>
-      </nav>
-    </header>
+      </ul>
+    </nav>
   );
 }
 

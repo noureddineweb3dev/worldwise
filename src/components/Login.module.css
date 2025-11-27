@@ -1,16 +1,26 @@
-.formContainer {
-  width: 100%;
-  height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.form {
-  display: flex;
-  flex-direction: column;
-  width: 400px;
+.login {
+  margin: 2.5rem;
+  padding: 2.5rem 5rem;
+  background-color: var(--color-dark--1);
+  min-height: calc(100vh - 5rem);
 }
 
-.form button {
-  align-self: flex-start;
+.form {
+  background-color: var(--color-dark--2);
+  border-radius: 7px;
+  padding: 2rem 3rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  /* Different from other form */
+  width: 48rem;
+  margin: 8rem auto;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
