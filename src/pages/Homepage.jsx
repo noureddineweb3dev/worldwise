@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import classes from './Homepage.module.css';
 
@@ -15,6 +16,9 @@ function Homepage() {
           A world map that tracks your footsteps into every city you can think of. Never forget your
           wonderful experiences, and show your friends how you have wandered the world.
         </h2>
+        <Link to="/app" className="cta">
+          Start tracking now
+        </Link>
       </section>
     </main>
   );
