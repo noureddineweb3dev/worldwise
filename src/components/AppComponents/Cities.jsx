@@ -1,4 +1,6 @@
+import classes from './Cities.module.css';
+
 function Cities() {
-  return <div>Cities</div>;
+  return <ul className={classes.cityList}>cities list</ul>;
 }
 export default Cities;
