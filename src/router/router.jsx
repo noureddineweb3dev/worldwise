@@ -6,6 +6,7 @@ import Login from '../components/Login';
 import AppLayout from '../pages/AppLayout';
 import Cities from '../components/AppComponents/Cities';
 import Countries from '../components/AppComponents/Countries';
+import Form from '../components/AppComponents/Form';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
         <Route index element={<Cities />} />
         <Route path="cities" element={<Cities />} />
         <Route path="countries" element={<Countries />} />
+        <Route path="form" element={<Form />} />
       </Route>
     </Route>
   )

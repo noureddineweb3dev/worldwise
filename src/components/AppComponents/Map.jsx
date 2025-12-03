@@ -1,6 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import classes from './Map.module.css';
 function Map() {
-  return <div className={classes.mapContainer}>Map</div>;
+  const navigate = useNavigate();
+  return (
+    <div className={classes.mapContainer} onClick={() => navigate('form')}>
+      Map
+    </div>
+  );
 }
 
 export default Map;
