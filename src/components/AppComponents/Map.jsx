@@ -1,15 +1,23 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
-
-import classes from './Map.module.css';
 import { useEffect, useState } from 'react';
 import { useCities } from '../../contexts/CitiesContext';
+import { useGeolocation } from '../../hooks/useGeolocation';
+
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
+import Button from '../AppComponents/Button';
+import classes from './Map.module.css';
+
 function Map() {
   const navigate = useNavigate();
   const [mapPosition, setMapPosition] = useState([51.505, -0.09]);
   const { cities } = useCities();
-
   const [searchParams] = useSearchParams();
+  const {
+    isLoading: isLoadingPosition,
+    position: geolocationPosition,
+    getPosition,
+  } = useGeolocation();
+
   const mapLat = searchParams.get('lat');
   const mapLng = searchParams.get('lng');
 
@@ -19,8 +27,19 @@ function Map() {
     }
   }, [mapLat, mapLng]);
 
+  useEffect(() => {
+    if (geolocationPosition) {
+      setMapPosition([geolocationPosition.lat, geolocationPosition.lng]);
+    }
+  }, [geolocationPosition]);
+
   return (
     <div className={classes.mapContainer}>
+      {!geolocationPosition && (
+        <Button btnType="position" onClick={getPosition} disabled={isLoadingPosition}>
+          {isLoadingPosition ? 'Loading...' : 'Use my location'}
+        </Button>
+      )}
       <MapContainer center={mapPosition} scrollWheelZoom={true} className={classes.map}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
