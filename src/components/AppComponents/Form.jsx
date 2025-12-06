@@ -1,9 +1,10 @@
-import BackButton from './BackButton';
-import Button from './Button';
-import classes from './Form.module.css';
 import { useEffect, useState } from 'react';
 import { useUrlLocation } from '../../hooks/useUrlLocation';
 import { useCities } from '../../contexts/CitiesContext';
+import classes from './Form.module.css';
+import BackButton from './BackButton';
+import Button from './Button';
+import Message from './Message';
 
 function Form() {
   const [lat, lng] = useUrlLocation();
@@ -26,6 +27,12 @@ function Form() {
       cityName: choosedCityInfo ? choosedCityInfo.city : '',
     }));
   }, [choosedCityInfo]);
+
+  console.log(choosedCityInfo);
+
+  if (choosedCityInfo.city === '' && choosedCityInfo.countryName === '') {
+    return <Message message="That area doesn't seem to be city. Click elsewhere! " />;
+  }
 
   return (
     <form className={classes.form}>
