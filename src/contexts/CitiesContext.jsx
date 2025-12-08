@@ -11,7 +11,7 @@ const formatDate = (date) =>
   }).format(new Date(date));
 
 function CitiesProvider({ children }) {
-  const [cities, setCities] = useState({});
+  const [cities, setCities] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentCity, setCurrentCity] = useState({});
 
@@ -32,9 +32,34 @@ function CitiesProvider({ children }) {
     fetchData(`${BASE_URL}`, setCities);
   }, []);
 
+  async function addCity(city) {
+    try {
+      setIsLoading(true);
+      await fetch('http://localhost:8000/cities', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(city),
+      });
+      setCities((cities) => [...cities, city]);
+    } catch {
+      alert('error during adding city...');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <CitiesContext.Provider
-      value={{ BASE_URL, cities, isLoading, currentCity, setCurrentCity, fetchData, formatDate }}
+      value={{
+        BASE_URL,
+        cities,
+        isLoading,
+        currentCity,
+        setCurrentCity,
+        fetchData,
+        formatDate,
+        addCity,
+      }}
     >
       {children}
     </CitiesContext.Provider>
