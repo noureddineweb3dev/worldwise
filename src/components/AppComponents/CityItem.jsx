@@ -4,7 +4,12 @@ import { useCities } from '../../contexts/CitiesContext';
 
 function CityItem({ city }) {
   const { cityName, emoji, date, id, position } = city;
-  const { formatDate, currentCity } = useCities();
+  const { formatDate, currentCity, deleteCity } = useCities();
+
+  function handleDelete(e) {
+    e.preventDefault();
+    deleteCity(id);
+  }
   return (
     <li>
       <Link
@@ -16,7 +21,9 @@ function CityItem({ city }) {
         <span className={classes.emoji}>{emoji}</span>
         <h3 className={classes.name}>{cityName}</h3>
         <time className={classes.date}>{formatDate(date)}</time>
-        <button className={classes.deleteBtn}>&times;</button>
+        <button className={classes.deleteBtn} onClick={handleDelete}>
+          &times;
+        </button>
       </Link>
     </li>
   );

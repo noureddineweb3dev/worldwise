@@ -35,14 +35,30 @@ function CitiesProvider({ children }) {
   async function addCity(city) {
     try {
       setIsLoading(true);
-      await fetch('http://localhost:8000/cities', {
+      const res = await fetch('http://localhost:8000/cities', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(city),
       });
-      setCities((cities) => [...cities, city]);
+
+      const newCity = await res.json();
+      setCities((cities) => [...cities, newCity]);
     } catch {
       alert('error during adding city...');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function deleteCity(id) {
+    try {
+      setIsLoading(true);
+      await fetch(`http://localhost:8000/cities/${id}`, {
+        method: 'DELETE',
+      });
+      setCities((cities) => cities.filter((city) => city.id !== id));
+    } catch {
+      alert('error during deleting city...');
     } finally {
       setIsLoading(false);
     }
@@ -59,6 +75,7 @@ function CitiesProvider({ children }) {
         fetchData,
         formatDate,
         addCity,
+        deleteCity,
       }}
     >
       {children}

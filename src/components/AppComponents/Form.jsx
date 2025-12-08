@@ -42,7 +42,7 @@ function Form() {
       notes: formInputs.notes,
       position: { lat, lng },
     };
-    addCity(newCity);
+    await addCity(newCity);
     navigate('/app/cities');
   }
 
