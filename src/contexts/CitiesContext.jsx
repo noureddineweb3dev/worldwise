@@ -1,8 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { BASE_URL, fetchJson } from '../utils/api';
 
 const CitiesContext = createContext();
-
-const BASE_URL = 'http://localhost:8000/cities';
 const formatDate = (date) =>
   new Intl.DateTimeFormat('en', {
     day: 'numeric',
@@ -15,36 +14,34 @@ function CitiesProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [currentCity, setCurrentCity] = useState({});
 
-  async function fetchData(URL, stateUpdater, id) {
+  async function fetchData(URL, stateUpdater, id, signal) {
     try {
       setIsLoading(true);
-      const res = await fetch(`${URL}${id ? `/${id}` : ''}`);
-      const data = await res.json();
+      const data = await fetchJson(`${URL}${id ? `/${id}` : ''}`, { signal });
       stateUpdater(data);
-    } catch {
-      alert('error during fetching data...');
+    } catch (err) {
+      if (err.name === 'AbortError') return; // request was cancelled
+      console.error('fetchData error:', err);
+      alert('Error during fetching data. See console for details.');
     } finally {
       setIsLoading(false);
     }
   }
 
   useEffect(function () {
-    fetchData(`${BASE_URL}`, setCities);
+    const ac = new AbortController();
+    fetchData(BASE_URL, setCities, undefined, ac.signal);
+    return () => ac.abort();
   }, []);
 
   async function addCity(city) {
     try {
       setIsLoading(true);
-      const res = await fetch('http://localhost:8000/cities', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(city),
-      });
-
-      const newCity = await res.json();
+      const newCity = await fetchJson(BASE_URL, { method: 'POST', body: city });
       setCities((cities) => [...cities, newCity]);
-    } catch {
-      alert('error during adding city...');
+    } catch (err) {
+      console.error('addCity error:', err);
+      alert('Error during adding city. See console for details.');
     } finally {
       setIsLoading(false);
     }
@@ -53,12 +50,11 @@ function CitiesProvider({ children }) {
   async function deleteCity(id) {
     try {
       setIsLoading(true);
-      await fetch(`http://localhost:8000/cities/${id}`, {
-        method: 'DELETE',
-      });
+      await fetchJson(`${BASE_URL}/${id}`, { method: 'DELETE' });
       setCities((cities) => cities.filter((city) => city.id !== id));
-    } catch {
-      alert('error during deleting city...');
+    } catch (err) {
+      console.error('deleteCity error:', err);
+      alert('Error during deleting city. See console for details.');
     } finally {
       setIsLoading(false);
     }

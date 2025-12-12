@@ -137,6 +137,23 @@ npm run build
 
 ---
 
+## ⚙️ Environment variables
+
+This project uses Vite environment variables to configure the API URL at runtime. Create a `.env` file in the project root during development or set the variable in your hosting environment.
+
+Example `.env` (not committed):
+
+```env
+VITE_API_URL=http://localhost:8000/cities
+```
+
+You can keep a copy for contributors in the repo as `.env.example` (already provided).
+
+Note: Vite only exposes variables prefixed with `VITE_` to the client code via `import.meta.env`.
+
+
+---
+
 ## 📝 Notes About the Latest JSON Server
 
 - `--delay` was **removed**
