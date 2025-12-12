@@ -4,6 +4,7 @@ import Product from '../pages/Product';
 import Pricing from '../pages/Pricing';
 import Login from '../components/Login';
 import AppLayout from '../pages/AppLayout';
+import ProtectedRoute from '../components/ProtectedRoute';
 import Cities from '../components/AppComponents/Cities';
 import Countries from '../components/AppComponents/Countries';
 import Form from '../components/AppComponents/Form';
@@ -16,7 +17,14 @@ const router = createBrowserRouter(
       <Route path="/product" element={<Product />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/app" element={<AppLayout />}>
+      <Route
+        path="/app"
+        element={
+          <ProtectedRoute>
+            <AppLayout />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<Cities />} />
         <Route path="cities" element={<Cities />} />
         <Route path="cities/:id" element={<CityDetails />} />

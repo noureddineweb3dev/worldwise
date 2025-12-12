@@ -1,3 +1,28 @@
 {
-  "cities": []
+  "cities": [
+    {
+      "id": "ecea",
+      "cityName": "Ripley",
+      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
+      "emoji": "GB",
+      "date": "2025-12-17T23:00:00.000Z",
+      "notes": "ergreg",
+      "position": {
+        "lat": "53.07454183321876",
+        "lng": "-1.4153090835178574"
+      }
+    },
+    {
+      "id": "5e1e",
+      "cityName": "Lea",
+      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
+      "emoji": "GB",
+      "date": "2025-12-18T23:00:00.000Z",
+      "notes": "hvbjb",
+      "position": {
+        "lat": "51.58443964197244",
+        "lng": "-2.0310330095084232"
+      }
+    }
+  ]
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import classes from './Login.module.css';
 import Navbar from './Navbar';
 import Button from './AppComponents/Button';
@@ -10,6 +11,7 @@ function Login() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -36,6 +38,7 @@ function Login() {
       setIsLoading(false);
 
       if (email === 'demo@example.com' && password === 'password') {
+        login(email); // Store user in auth context
         navigate('/app');
       } else {
         setError('Invalid email or password. Try demo@example.com / password');
