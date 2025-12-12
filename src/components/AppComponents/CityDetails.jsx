@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useCities } from '../../contexts/CitiesContext';
 import { useEffect } from 'react';
 import BackButton from './BackButton';
+import { countryCodeToFlag, getFlagSrc } from '../../utils/flags';
 import Spinner from './Spinner';
 
 function CityDetails() {
@@ -21,7 +22,14 @@ function CityDetails() {
       <div className={classes.row}>
         <h6>City name</h6>
         <h3>
-          <span>{emoji}</span> {cityName}
+          <span>
+            {getFlagSrc(emoji) ? (
+              <img src={getFlagSrc(emoji)} alt={`${cityName} flag`} width="24" height="18" />
+            ) : (
+              countryCodeToFlag(emoji) || emoji
+            )}
+          </span>{' '}
+          {cityName}
         </h3>
       </div>
 

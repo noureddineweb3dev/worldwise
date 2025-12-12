@@ -5,6 +5,7 @@ import { useGeolocation } from '../../hooks/useGeolocation';
 
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
 import Button from '../AppComponents/Button';
+import { countryCodeToFlag, getFlagSrc } from '../../utils/flags';
 import classes from './Map.module.css';
 import { useUrlLocation } from '../../hooks/useUrlLocation';
 
@@ -48,7 +49,18 @@ function Map() {
           return (
             <Marker key={city.id} position={cityPosition}>
               <Popup>
-                <span>{city.emoji}</span>
+                <span>
+                  {getFlagSrc(city.emoji) ? (
+                    <img
+                      src={getFlagSrc(city.emoji)}
+                      alt={`${city.cityName} flag`}
+                      width="24"
+                      height="18"
+                    />
+                  ) : (
+                    countryCodeToFlag(city.emoji) || city.emoji
+                  )}
+                </span>
                 <span>{city.cityName}</span>
               </Popup>
             </Marker>

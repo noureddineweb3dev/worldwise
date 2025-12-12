@@ -8,6 +8,7 @@ import Button from './Button';
 import Message from './Message';
 import DatePicker from 'react-datepicker';
 import { useNavigate } from 'react-router-dom';
+import { countryCodeToFlag, getFlagSrc } from '../../utils/flags';
 
 function Form() {
   const [lat, lng] = useUrlLocation();
@@ -29,8 +30,8 @@ function Form() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [choosedCityInfo, setChoosedCityInfo] = useState({});
   const [error, setError] = useState(null);
+  const emoji = choosedCityInfo.countryCode;
 
-  // Reverse-geocode when we have valid coordinates; cancel previous requests on change
   useEffect(() => {
     if (lat == null || lng == null) return;
     const ac = new AbortController();
@@ -82,6 +83,7 @@ function Form() {
     const newCity = {
       cityName: state.cityName,
       country: choosedCityInfo.countryName,
+      // store the 2-letter country code so the UI can render an image flag
       emoji: choosedCityInfo.countryCode,
       date: state.date,
       notes: state.notes,
@@ -98,7 +100,6 @@ function Form() {
     }
   }
 
-  // If user has selected coordinates but reverse geocode didn't return a city
   if (lat != null && lng != null && !choosedCityInfo.city) {
     return <Message message="That area doesn't seem to be a city. Click elsewhere!" />;
   }
@@ -109,13 +110,27 @@ function Form() {
 
       <div className={classes.row}>
         <label htmlFor="cityName">City name</label>
-        <input
-          id="cityName"
-          value={state.cityName}
-          onChange={(e) =>
-            dispatch({ type: 'SET_FIELD', field: 'cityName', value: e.target.value })
-          }
-        />
+        <div>
+          <input
+            id="cityName"
+            value={state.cityName}
+            onChange={(e) =>
+              dispatch({ type: 'SET_FIELD', field: 'cityName', value: e.target.value })
+            }
+          />
+          <span className={classes.flag}>
+            {getFlagSrc(emoji) ? (
+              <img
+                src={getFlagSrc(emoji)}
+                alt={`${choosedCityInfo.countryName} flag`}
+                width="24"
+                height="18"
+              />
+            ) : (
+              countryCodeToFlag(emoji) || emoji
+            )}
+          </span>
+        </div>
       </div>
 
       <div className={classes.row}>

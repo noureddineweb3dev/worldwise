@@ -151,7 +151,6 @@ You can keep a copy for contributors in the repo as `.env.example` (already prov
 
 Note: Vite only exposes variables prefixed with `VITE_` to the client code via `import.meta.env`.
 
-
 ---
 
 ## 📝 Notes About the Latest JSON Server
